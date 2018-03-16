@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -10,7 +11,7 @@ namespace Client
         int port = 8005; // порт сервера
         string address = "127.0.0.1"; // адрес сервера
 
-        public void SendCmd()
+        public void SendCmd(string[] args)
         {
             try
             {
@@ -19,9 +20,16 @@ namespace Client
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 // подключаемся к удаленному хосту
                 socket.Connect(ipPoint);
-                Console.Write("Введите сообщение:");
-                string message = Console.ReadLine();
-                byte[] data = Encoding.Unicode.GetBytes(message);
+
+                StringBuilder sb = new StringBuilder();
+                foreach(string pr in args)
+                {
+                    sb.Append(string.Format("{0} ", pr));
+                }
+                sb.Remove(sb.Length-1, 1);
+
+
+                byte[] data = Encoding.Unicode.GetBytes(sb.ToString());
                 socket.Send(data);
  
                 // получаем ответ

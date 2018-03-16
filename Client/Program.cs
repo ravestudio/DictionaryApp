@@ -8,7 +8,7 @@ namespace Client
         {
 
             tcpClient client = new tcpClient();
-            client.SendCmd();
+            client.SendCmd(args);
 
             Console.Read();
         }
